@@ -1,36 +1,127 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chessfolio - SaaS Catur</title>
-    <!-- Tailwind CSS (via CDN sementara untuk kerangka) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Menyesuaikan tema warna hijau seperti permintaan -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              brand: {
-                light: '#e8f5e9',
-                DEFAULT: '#4caf50',
-                dark: '#2e7d32',
-              }
-            }
-          }
-        }
-      }
-    </script>
-</head>
-<body class="bg-gray-50 text-gray-800">
-    <div class="min-h-screen flex flex-col justify-center items-center">
-        <h1 class="text-4xl font-bold text-brand-dark mb-4">Selamat Datang di Chessfolio!</h1>
-        <p class="text-lg mb-8">Platform SaaS untuk Profil Catur Anda (Berjalan di atas Python Flask)</p>
-        <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-brand">
-            <h2 class="text-xl font-semibold mb-2">Status Environment:</h2>
-            <p><strong>App URL:</strong> {{ app_url }}</p>
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative bg-gradient-to-b from-[#064e3b] via-[#047857] to-[#10b981] overflow-hidden">
+    <!-- Abstract subtle shapes -->
+    <div class="absolute inset-0 opacity-10">
+        <svg class="absolute left-0 top-0 h-[1000px] w-[1000px] -translate-x-1/2 -translate-y-1/2 transform" fill="none" viewBox="0 0 1000 1000"><circle cx="500" cy="500" r="500" fill="url(#gradient-1)"/></svg>
+        <svg class="absolute right-0 bottom-0 h-[800px] w-[800px] translate-x-1/3 translate-y-1/3 transform" fill="none" viewBox="0 0 1000 1000"><circle cx="500" cy="500" r="500" fill="url(#gradient-1)"/></svg>
+        <defs><radialGradient id="gradient-1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(500 500) rotate(90) scale(500)"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></radialGradient></defs>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-32 pb-40">
+        <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
+            <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
+                <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-green-100 text-sm font-semibold mb-6 backdrop-blur-sm">
+                    <span class="flex h-2 w-2 rounded-full bg-brand-light mr-2 animate-pulse"></span>
+                    SaaS Analitik Catur #1 di Indonesia
+                </div>
+                <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl lg:text-[64px] leading-tight">
+                    Kuasai Papan <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-light to-green-200">Dengan Data</span>
+                </h1>
+                <p class="mt-6 text-lg text-green-50 sm:text-xl leading-relaxed">
+                    Chessfolio menyulap statistik permainanmu dari Chess.com menjadi wawasan mendalam. Visualisasikan progresmu, temukan kelemahanmu, dan tingkatkan ELO-mu sekarang juga.
+                </p>
+                <div class="mt-10 sm:flex sm:justify-center lg:justify-start gap-4">
+                    <a href="#" class="w-full sm:w-auto flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-full text-brand-darker bg-white shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] transition-all transform hover:-translate-y-1">
+                        Mulai Analisis Gratis
+                    </a>
+                    <a href="{{ url_for('pricing') }}" class="mt-4 sm:mt-0 w-full sm:w-auto flex items-center justify-center px-8 py-4 border-2 border-white/30 text-lg font-bold rounded-full text-white bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all">
+                        Eksplorasi Fitur PRO
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Hero Image / 3D Asset -->
+            <div class="mt-16 lg:mt-0 lg:col-span-6 relative">
+                <div class="relative mx-auto w-full rounded-2xl shadow-2xl lg:max-w-md transform rotate-2 hover:rotate-0 transition-all duration-500 hover:scale-105">
+                    <!-- Glass effect overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent rounded-2xl border border-white/20 z-10 pointer-events-none"></div>
+                    <img class="w-full rounded-2xl object-cover" src="{{ url_for('static', filename='images/hero_chess.png') }}" alt="3D Chess Illustration">
+                </div>
+            </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+
+<!-- Logo Cloud -->
+<div class="bg-gray-50 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <p class="text-center text-sm font-semibold uppercase text-gray-500 tracking-wider mb-6">Terintegrasi Langsung Dengan</p>
+        <div class="flex justify-center opacity-60 hover:opacity-100 transition-opacity">
+            <!-- Chess.com mock logo text -->
+            <h2 class="text-3xl font-black text-gray-900 flex items-center gap-2">
+                <svg class="w-8 h-8 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                Chess.com
+            </h2>
+        </div>
+    </div>
+</div>
+
+<!-- Features Dashboard Showcase Section -->
+<div id="fitur" class="bg-white py-24 sm:py-32 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+            <div>
+                <h2 class="text-base text-brand font-semibold tracking-wide uppercase">Dashboard Premium</h2>
+                <h3 class="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
+                    Satu layar untuk semua metrik pentingmu
+                </h3>
+                <p class="mt-5 text-lg text-gray-500 leading-relaxed">
+                    Tinggalkan analisis manual. Sistem kami memvisualisasikan *win rate*, performa per *opening*, dan fluktuasi ELO-mu ke dalam *Dark-Mode Dashboard* yang elegan.
+                </p>
+                <dl class="mt-10 space-y-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-xl bg-brand text-white shadow-md">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <dt class="text-lg leading-6 font-bold text-gray-900">Grafik Performa Real-time</dt>
+                            <dd class="mt-2 text-base text-gray-500">Pantau pergerakan rating Bullet, Blitz, dan Rapid-mu dalam grafik interaktif.</dd>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-xl bg-brand text-white shadow-md">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <dt class="text-lg leading-6 font-bold text-gray-900">Privasi Terjamin</dt>
+                            <dd class="mt-2 text-base text-gray-500">Aman terenkripsi. Kami hanya membaca data publik tanpa menyentuh kredensial asli Chess.com.</dd>
+                        </div>
+                    </div>
+                </dl>
+            </div>
+            
+            <div class="mt-16 lg:mt-0 relative">
+                <!-- Decorative background blobs -->
+                <div class="absolute -top-10 -right-10 w-72 h-72 bg-brand-light rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+                <div class="absolute -bottom-10 -left-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+                
+                <img class="relative rounded-2xl shadow-2xl border border-gray-100 z-10 hover:scale-105 transition-transform duration-700" src="{{ url_for('static', filename='images/dashboard_mockup.png') }}" alt="SaaS Dashboard Interface">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action Section -->
+<div class="bg-brand-darker relative overflow-hidden">
+    <div class="absolute inset-0 bg-brand opacity-20" style="background-image: radial-gradient(#10b981 1px, transparent 1px); background-size: 20px 20px;"></div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative z-10">
+        <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+            <span class="block">Siap menjadi Grandmaster berikutnya?</span>
+        </h2>
+        <p class="mt-4 text-xl leading-6 text-green-100">
+            Mulai pelacakan analitikmu hari ini secara gratis. Tingkatkan ke PRO nanti kapanpun kamu mau.
+        </p>
+        <a href="{{ url_for('pricing') }}" class="mt-8 inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-full text-brand-darker bg-brand-light hover:bg-white shadow-lg transition-all transform hover:scale-105">
+            Lihat Paket Harga Kami
+        </a>
+    </div>
+</div>
+{% endblock %}

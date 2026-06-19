@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Chessfolio - SaaS Profil Catur{% endblock %}</title>
+    <!-- Montserrat Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Montserrat', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                light: '#a7f3d0', /* Emerald 200 */
+                DEFAULT: '#10b981', /* Emerald 500 */
+                dark: '#047857', /* Emerald 700 */
+                darker: '#064e3b', /* Emerald 900 */
+              }
+            },
+            boxShadow: {
+              'brand': '0px 4px 12px 0px rgba(16, 185, 129, 0.15)',
+              'brand-lg': '0px 8px 26px 0px rgba(16, 185, 129, 0.3)',
+            },
+            borderRadius: {
+              'xl': '20px',
+              '2xl': '30px',
+              'full': '40px',
+            }
+          }
+        }
+      }
+    </script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans flex flex-col min-h-screen">
+
+    
+    <!-- Sticky Navbar -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-sm border-b border-gray-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="{{ url_for('home') }}" class="flex-shrink-0 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-brand-light to-brand rounded-xl flex items-center justify-center shadow-inner">
+                            <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 3L20 7L16 11V18H8V11L4 7L6 3H18Z"/>
+                                <path d="M4 21H20"/>
+                            </svg>
+                        </div>
+                        <span class="font-extrabold text-2xl text-gray-900 tracking-tight">Chessfolio</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{{ url_for('home') }}#fitur" class="text-gray-600 hover:text-brand px-3 py-2 text-sm font-semibold transition-colors">Fitur</a>
+                    <a href="{{ url_for('pricing') }}" class="text-gray-600 hover:text-brand px-3 py-2 text-sm font-semibold transition-colors">Harga</a>
+                    <div class="w-px h-6 bg-gray-200"></div>
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.id == 1 %}
+                            <a href="{{ url_for('admin') }}" class="text-red-600 hover:text-red-800 font-bold transition-colors">Admin Panel</a>
+                        {% endif %}
+                        <a href="{{ url_for('dashboard') }}" class="text-gray-600 hover:text-brand font-semibold transition-colors">Dashboard</a>
+                        <a href="{{ url_for('logout') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-sm">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="text-gray-600 hover:text-gray-900 font-semibold transition-colors">Log in</a>
+                        <a href="{{ url_for('register') }}" class="bg-brand hover:bg-brand-dark text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-brand hover:shadow-brand-lg transform hover:-translate-y-0.5">Mulai Gratis</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Enhanced Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <svg class="h-8 w-8 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 3L20 7L16 11V18H8V11L4 7L6 3H18Z"/>
+                            <path d="M4 21H20"/>
+                        </svg>
+                        <span class="font-extrabold text-2xl tracking-tight">Chessfolio</span>
+                    </div>
+                    <p class="text-gray-400 max-w-sm">Tingkatkan permainan caturmu dengan analitik data kelas dunia. Jadikan setiap langkah bermakna.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Produk</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#fitur" class="hover:text-brand transition-colors">Fitur Analitik</a></li>
+                        <li><a href="{{ url_for('pricing') }}" class="hover:text-brand transition-colors">Harga SaaS</a></li>
+                        <li><a href="#" class="hover:text-brand transition-colors">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Perusahaan</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-brand transition-colors">Tentang Kelompok 10</a></li>
+                        <li><a href="#" class="hover:text-brand transition-colors">Tugas UTS/UAS</a></li>
+                        <li><a href="#" class="hover:text-brand transition-colors">Kontak</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <p>&copy; 2026 Kelompok 10 Cloud Computing. Hak Cipta Dilindungi.</p>
+                <div class="mt-4 md:mt-0 space-x-4">
+                    <a href="#" class="hover:text-white transition-colors">Kebijakan Privasi</a>
+                    <a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

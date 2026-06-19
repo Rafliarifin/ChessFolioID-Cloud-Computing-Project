@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }} | Chessfolio Biolink</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Theme Variables */
+        :root {
+            {% if user.theme_color == 'emerald' %}
+                --theme-bg: #064e3b;
+                --theme-primary: #10b981;
+                --theme-gradient: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+            {% elif user.theme_color == 'ruby' %}
+                --theme-bg: #450a0a;
+                --theme-primary: #ef4444;
+                --theme-gradient: linear-gradient(135deg, #450a0a 0%, #991b1b 100%);
+            {% elif user.theme_color == 'sapphire' %}
+                --theme-bg: #082f49;
+                --theme-primary: #3b82f6;
+                --theme-gradient: linear-gradient(135deg, #082f49 0%, #1d4ed8 100%);
+            {% elif user.theme_color == 'gold' %}
+                --theme-bg: #422006;
+                --theme-primary: #f59e0b;
+                --theme-gradient: linear-gradient(135deg, #422006 0%, #b45309 100%);
+            {% else %}
+                --theme-bg: #064e3b;
+                --theme-primary: #10b981;
+                --theme-gradient: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+            {% endif %}
+        }
+        
+        .theme-bg { background: var(--theme-gradient); }
+        .text-theme { color: var(--theme-primary); }
+        .border-theme { border-color: var(--theme-primary); }
+    </style>
+</head>
+<body class="theme-bg min-h-screen text-white flex flex-col items-center justify-center p-4">
+
+    <div class="max-w-md w-full backdrop-blur-xl bg-black/40 rounded-3xl p-8 border border-white/10 shadow-2xl text-center transform hover:scale-[1.02] transition-transform duration-300">
+        
+        <!-- Avatar -->
+        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-theme shadow-[0_0_30px_rgba(255,255,255,0.1)] mb-6">
+            {% if chess_data.avatar %}
+                <img src="{{ chess_data.avatar }}" alt="Avatar" class="w-full h-full object-cover">
+            {% else %}
+                <div class="w-full h-full bg-gray-800 flex items-center justify-center text-4xl font-black uppercase">
+                    {{ user.username[0] }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <h1 class="text-3xl font-black mb-1 tracking-tight">{{ chess_data.name | default(user.username, true) }}</h1>
+        <p class="text-gray-400 font-medium mb-8">@{{ user.username }} • {{ chess_data.status | default('Basic', true) | title }}</p>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="bg-black/40 p-4 rounded-2xl border border-white/5">
+                <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-1">Rapid ELO</p>
+                <p class="text-3xl font-black text-theme">{{ rapid_rating }}</p>
+            </div>
+            <div class="bg-black/40 p-4 rounded-2xl border border-white/5">
+                <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-1">Followers</p>
+                <p class="text-3xl font-black text-white">{{ chess_data.followers | default(0, true) }}</p>
+            </div>
+        </div>
+
+        <!-- Links -->
+        <div class="space-y-4">
+            <a href="https://www.chess.com/member/{{ user.username }}" target="_blank" class="block w-full py-4 px-6 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-bold transition-all text-white hover:text-theme">
+                Tantang Saya di Chess.com
+            </a>
+        </div>
+
+    </div>
+
+    <div class="mt-8 text-center">
+        <a href="{{ url_for('home') }}" class="text-white/50 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">
+            Powered by Chessfolio PRO
+        </a>
+    </div>
+
+</body>
+</html>

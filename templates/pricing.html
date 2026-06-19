@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Pricing - Chessfolio{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center">
+            <h2 class="text-base font-semibold text-brand tracking-wide uppercase">Pricing</h2>
+            <p class="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl lg:text-5xl">
+                Pilih paket yang tepat untukmu
+            </p>
+            <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                Buka seluruh potensi analitik caturmu dengan paket Pro kami.
+            </p>
+        </div>
+
+        <div class="mt-16 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-8 max-w-4xl mx-auto">
+            
+            <!-- Free Tier -->
+            <div class="relative p-8 bg-white border border-gray-200 rounded-2xl shadow-sm flex flex-col hover:shadow-md transition-shadow">
+                <div class="flex-1">
+                    <h3 class="text-xl font-semibold text-gray-900">Pion (Gratis)</h3>
+                    <p class="mt-4 flex items-baseline text-gray-900">
+                        <span class="text-5xl font-extrabold tracking-tight">Rp 0</span>
+                        <span class="ml-1 text-xl font-semibold">/selamanya</span>
+                    </p>
+                    <p class="mt-6 text-gray-500">Cocok untuk pemain kasual yang ingin membagikan statistik dasar.</p>
+                    <ul role="list" class="mt-6 space-y-6">
+                        <li class="flex">
+                            <svg class="flex-shrink-0 w-6 h-6 text-brand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="ml-3 text-gray-500">Tampilan profil standar</span>
+                        </li>
+                        <li class="flex">
+                            <svg class="flex-shrink-0 w-6 h-6 text-brand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="ml-3 text-gray-500">Integrasi API Chess.com</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="#" class="bg-brand-light text-brand-dark hover:bg-green-100 mt-8 block w-full py-3 px-6 border border-transparent rounded-md text-center font-medium transition-colors">Daftar Gratis</a>
+            </div>
+
+            <!-- Pro Tier -->
+            <div class="relative p-8 bg-white border-2 border-brand rounded-2xl shadow-xl flex flex-col transform md:-translate-y-4">
+                <!-- Badge -->
+                <div class="absolute top-0 py-1.5 px-4 bg-brand text-white text-sm font-semibold rounded-full shadow-md transform -translate-y-1/2 left-1/2 -translate-x-1/2">
+                    Paling Populer
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-xl font-semibold text-gray-900">Menteri (Pro)</h3>
+                    <p class="mt-4 flex items-baseline text-gray-900">
+                        <span class="text-5xl font-extrabold tracking-tight">Rp 15.000</span>
+                        <span class="ml-1 text-xl font-semibold">/bulan</span>
+                    </p>
+                    <p class="mt-6 text-gray-500">Buka analitik penuh dan ubah profilmu menjadi portofolio elegan.</p>
+                    <ul role="list" class="mt-6 space-y-6">
+                        <li class="flex">
+                            <svg class="flex-shrink-0 w-6 h-6 text-brand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="ml-3 text-gray-500">Semua fitur Gratis</span>
+                        </li>
+                        <li class="flex">
+                            <svg class="flex-shrink-0 w-6 h-6 text-brand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="ml-3 text-gray-900 font-medium">Tema Dark Mode Khusus</span>
+                        </li>
+                        <li class="flex">
+                            <svg class="flex-shrink-0 w-6 h-6 text-brand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="ml-3 text-gray-900 font-medium">Grafik & Chart Analitik Canggih</span>
+                        </li>
+                        <li class="flex">
+                            <svg class="flex-shrink-0 w-6 h-6 text-brand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="ml-3 text-gray-900 font-medium">Bebas Iklan 100%</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="#" class="bg-brand text-white hover:bg-brand-dark mt-8 block w-full py-3 px-6 border border-transparent rounded-md text-center font-medium shadow-md transition-colors">Upgrade Sekarang</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

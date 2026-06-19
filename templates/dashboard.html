@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Chessfolio{% endblock %}
+
+{% block content %}
+<div class="bg-[#1a1a1a] min-h-screen py-10 font-sans">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header Profile -->
+        <div class="bg-[#262421] rounded-lg shadow-xl p-8 mb-8 flex flex-col md:flex-row items-center gap-8 border border-white/5">
+            <div class="w-32 h-32 flex-shrink-0 bg-gray-800 rounded-lg overflow-hidden border-2 border-[#3c3a38]">
+                {% if chess_data.avatar %}
+                    <img src="{{ chess_data.avatar }}" alt="Avatar" class="w-full h-full object-cover">
+                {% else %}
+                    <div class="w-full h-full bg-[#10b981] flex items-center justify-center text-white font-bold text-5xl uppercase">
+                        {{ current_user.username[0] }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="flex-grow text-center md:text-left">
+                <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
+                    <h1 class="text-4xl font-extrabold text-white">{{ chess_data.name | default(current_user.username, true) }}</h1>
+                    {% if current_user.is_pro %}
+                        <span class="bg-[#10b981] text-white text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-wide">PRO</span>
+                    {% endif %}
+                </div>
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-[#ababab] mb-4">
+                    <span>Bergabung: <strong class="text-white">{{ chess_data.joined_date | default('N/A', true) }}</strong></span>
+                    <span>Teman: <strong class="text-white">{{ chess_data.followers | default(0, true) }}</strong></span>
+                    <span>Status: <strong class="text-white capitalize">{{ chess_data.status | default('Basic', true) }}</strong></span>
+                </div>
+                {% if current_user.is_pro %}
+                <div class="mt-4 flex flex-wrap gap-4 justify-center md:justify-start items-center">
+                    <a href="{{ url_for('biolink', username=current_user.username) }}" target="_blank" class="text-xs bg-[#10b981]/20 text-[#10b981] px-4 py-2 rounded-md font-bold hover:bg-[#10b981]/30 transition">🔗 Buka Biolink Publik</a>
+                    
+                    <form action="{{ url_for('dashboard') }}" method="POST" class="flex items-center gap-2">
+                        <select name="theme_color" onchange="this.form.submit()" class="bg-[#3c3a38] text-white text-xs px-3 py-2 rounded-md border border-white/10 outline-none cursor-pointer">
+                            <option value="emerald" {% if current_user.theme_color == 'emerald' %}selected{% endif %}>Tema: Emerald (Hijau)</option>
+                            <option value="ruby" {% if current_user.theme_color == 'ruby' %}selected{% endif %}>Tema: Ruby (Merah)</option>
+                            <option value="sapphire" {% if current_user.theme_color == 'sapphire' %}selected{% endif %}>Tema: Sapphire (Biru)</option>
+                            <option value="gold" {% if current_user.theme_color == 'gold' %}selected{% endif %}>Tema: Gold (Emas)</option>
+                        </select>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if not current_user.is_pro %}
+            <div class="bg-[#302e2b] border border-[#10b981]/30 p-4 rounded-lg text-center flex-shrink-0">
+                <p class="text-sm text-gray-300 mb-3">Akses Analitik & Riwayat Permainan.</p>
+                <a href="{{ url_for('checkout') }}" class="inline-block bg-[#10b981] hover:bg-[#059669] text-white font-bold py-2 px-6 rounded-md shadow-md transition-all">Upgrade PRO</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Rating Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-[#262421] p-6 rounded-lg border border-white/5 flex items-center gap-4 hover:bg-[#302e2b] transition-colors">
+                <div class="w-10 h-10 bg-[#302e2b] rounded-md flex items-center justify-center text-[#10b981]">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-[#ababab] uppercase tracking-wider">Cepat (Rapid)</p>
+                    <p class="text-3xl font-black text-white">{{ rapid }}</p>
+                </div>
+            </div>
+            <div class="bg-[#262421] p-6 rounded-lg border border-white/5 flex items-center gap-4 hover:bg-[#302e2b] transition-colors">
+                <div class="w-10 h-10 bg-[#302e2b] rounded-md flex items-center justify-center text-[#fbbf24]">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.381z" clip-rule="evenodd"></path></svg>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-[#ababab] uppercase tracking-wider">Kilat (Blitz)</p>
+                    <p class="text-3xl font-black text-white">{{ blitz }}</p>
+                </div>
+            </div>
+            <div class="bg-[#262421] p-6 rounded-lg border border-white/5 flex items-center gap-4 hover:bg-[#302e2b] transition-colors">
+                <div class="w-10 h-10 bg-[#302e2b] rounded-md flex items-center justify-center text-[#f97316]">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0z"></path></svg>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-[#ababab] uppercase tracking-wider">Teka-Teki</p>
+                    <p class="text-3xl font-black text-white">{{ puzzle }}</p>
+                </div>
+            </div>
+        </div>
+
+        {% if current_user.is_pro %}
+        <!-- Game History Section (PRO) -->
+        <div class="bg-[#262421] rounded-lg border border-white/5 mb-8 overflow-hidden">
+            <div class="px-6 py-4 border-b border-white/5 bg-[#302e2b]">
+                <h3 class="text-lg font-bold text-white">Riwayat Permainan Terakhir</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-[#ababab] text-sm border-b border-white/5">
+                            <th class="px-6 py-3 font-semibold">Tipe</th>
+                            <th class="px-6 py-3 font-semibold">Pemain</th>
+                            <th class="px-6 py-3 font-semibold">Hasil</th>
+                            <th class="px-6 py-3 font-semibold">Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-white text-sm">
+                        {% for game in recent_games %}
+                        <tr class="border-b border-white/5 hover:bg-[#302e2b] transition-colors">
+                            <td class="px-6 py-4 capitalize text-[#ababab]">{{ game.time_class }}</td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col">
+                                    <span class="{% if game.white.username.lower() == current_user.username.lower() %}font-bold text-[#10b981]{% endif %}">
+                                        ⚪ {{ game.white.username }} ({{ game.white.rating }})
+                                    </span>
+                                    <span class="{% if game.black.username.lower() == current_user.username.lower() %}font-bold text-[#10b981]{% endif %}">
+                                        ⚫ {{ game.black.username }} ({{ game.black.rating }})
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="{{ game.url }}" target="_blank" class="bg-[#3c3a38] hover:bg-[#4d4a48] px-4 py-2 rounded text-white text-xs font-bold transition-colors">Lihat Papan</a>
+                            </td>
+                            <td class="px-6 py-4 text-[#ababab]">{{ game.end_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if not recent_games %}
+                <div class="p-6 text-center text-[#ababab]">Belum ada riwayat permainan.</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Advanced Analytics Chart (PRO) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-[#262421] p-8 rounded-lg border border-white/5">
+                <h3 class="text-white font-bold mb-6 text-lg">Distribusi Hasil (Rapid)</h3>
+                <div class="relative h-64 w-full flex items-center justify-center">
+                    <canvas id="winRateChart"></canvas>
+                </div>
+            </div>
+            <!-- AI Match Predictor -->
+            <div class="bg-[#262421] p-8 rounded-lg border border-white/5 flex flex-col">
+                <div class="flex items-center gap-3 mb-6">
+                    <h3 class="text-white font-bold text-lg">AI Match Predictor</h3>
+                    <span class="bg-[#10b981]/20 text-[#10b981] text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wide">BETA</span>
+                </div>
+                <p class="text-[#ababab] text-sm mb-4">Masukkan username lawan untuk memprediksi peluang kemenangan (Rapid).</p>
+                <div class="flex gap-2 mb-6">
+                    <input type="text" id="opponentName" placeholder="Username lawan..." class="flex-grow bg-[#302e2b] text-white px-4 py-2 rounded-md outline-none border border-white/10 focus:border-[#10b981]">
+                    <button onclick="predictMatch()" class="bg-[#10b981] hover:bg-[#059669] text-white px-4 py-2 rounded-md font-bold transition-colors">Analisis</button>
+                </div>
+                
+                <div id="predictionResult" class="hidden flex-col gap-4">
+                    <div class="flex justify-between items-center text-sm font-bold">
+                        <span class="text-[#10b981]">Kamu (<span id="myElo">{{ rapid }}</span>)</span>
+                        <span class="text-[#ababab]">vs</span>
+                        <span class="text-[#ef4444]" id="oppNameDisplay">Lawan (<span id="oppElo">...</span>)</span>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-[#ef4444] rounded-full h-4 overflow-hidden flex">
+                        <div id="winBar" class="bg-[#10b981] h-full transition-all duration-1000" style="width: 50%"></div>
+                    </div>
+                    
+                    <div class="flex justify-between text-xs font-bold">
+                        <span id="winProb" class="text-[#10b981]">50% Menang</span>
+                        <span id="loseProb" class="text-[#ef4444]">50% Kalah</span>
+                    </div>
+                </div>
+                
+                <div id="predictionLoading" class="hidden text-center text-[#ababab] text-sm py-4">
+                    Memproses data AI...
+                </div>
+                <div id="predictionError" class="hidden text-center text-[#ef4444] text-sm py-4">
+                    Pemain tidak ditemukan atau data tidak lengkap.
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart.js Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            {% if pro_stats %}
+            const win = {{ pro_stats.win | default(0, true) }};
+            const loss = {{ pro_stats.loss | default(0, true) }};
+            const draw = {{ pro_stats.draw | default(0, true) }};
+            
+            const ctxWin = document.getElementById('winRateChart').getContext('2d');
+            new Chart(ctxWin, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Menang', 'Kalah', 'Seri'],
+                    datasets: [{
+                        data: [win, loss, draw],
+                        backgroundColor: ['#10b981', '#ef4444', '#6b7280'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#e5e7eb', padding: 20 } }
+                    }
+                }
+            });
+            {% endif %}
+
+            // AI Match Predictor Logic
+            async function predictMatch() {
+                const oppName = document.getElementById('opponentName').value.trim();
+                const myElo = parseInt(document.getElementById('myElo').innerText) || 1200;
+                
+                if (!oppName) return;
+                
+                document.getElementById('predictionResult').classList.add('hidden');
+                document.getElementById('predictionError').classList.add('hidden');
+                document.getElementById('predictionLoading').classList.remove('hidden');
+                
+                try {
+                    const response = await fetch(`/api/predict/${oppName}`);
+                    let data;
+                    try {
+                        data = await response.json();
+                    } catch (e) {
+                        throw new Error("Gagal membaca respons dari server (Mungkin terblokir login/cache)");
+                    }
+                    
+                    if (!response.ok || !data.success) throw new Error(data.message || 'Pemain tidak ditemukan');
+                    
+                    const oppElo = data.rating;
+                    if (!oppElo) throw new Error('Tidak ada data rating Rapid');
+                    
+                    document.getElementById('oppNameDisplay').innerText = oppName + ' (' + oppElo + ')';
+                    
+                    // ELO Probability Formula: 1 / (1 + 10^((OppElo - MyElo)/400))
+                    const winProbability = 1 / (1 + Math.pow(10, (oppElo - myElo) / 400));
+                    const winPercent = Math.round(winProbability * 100);
+                    const losePercent = 100 - winPercent;
+                    
+                    document.getElementById('winBar').style.width = winPercent + '%';
+                    document.getElementById('winProb').innerText = winPercent + '% Menang';
+                    document.getElementById('loseProb').innerText = losePercent + '% Kalah';
+                    
+                    document.getElementById('predictionLoading').classList.add('hidden');
+                    document.getElementById('predictionResult').classList.remove('hidden');
+                    document.getElementById('predictionResult').classList.add('flex');
+                    
+                } catch (error) {
+                    document.getElementById('predictionLoading').classList.add('hidden');
+                    document.getElementById('predictionError').innerText = error.message;
+                    document.getElementById('predictionError').classList.remove('hidden');
+                }
+            }
+        </script>
+
+        {% else %}
+        <!-- Paywall for Free Users -->
+        <div class="relative bg-[#262421] rounded-lg overflow-hidden border border-white/5 p-12 flex flex-col items-center justify-center text-center mt-10">
+            <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            
+            <div class="relative z-10 max-w-xl">
+                <div class="w-20 h-20 bg-[#10b981]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-10 h-10 text-[#10b981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                </div>
+                <h3 class="text-3xl font-extrabold text-white mb-4">Riwayat & Analitik Terkunci</h3>
+                <p class="text-[#ababab] mb-8 text-lg">Tingkatkan akunmu ke Paket Menteri (PRO) untuk melihat riwayat 5 pertandingan terakhir, grafik rasio kemenangan asli, dan mendalami permainanmu.</p>
+                <a href="{{ url_for('checkout') }}" class="inline-flex items-center justify-center px-10 py-4 font-bold rounded-md text-white bg-[#10b981] hover:bg-[#059669] shadow-lg transition-all transform hover:scale-105">
+                    Buka Semua Fitur - Rp 15.000
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
